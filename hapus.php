@@ -14,6 +14,6 @@ unlink("upload/$foto");
 
 mysqli_query($koneksi, "DELETE FROM tb_siswa WHERE id='$id'");
 
-header("Location: index.php");
+header("Location: data_siswa.php");
 
 ?>

@@ -30,7 +30,7 @@
         Dashboard
     </a>
 
-    <a href="index.php">
+    <a href="data_siswa.php">
         <i class="bi bi-people-fill me-2"></i>
         Data Siswa
     </a>
@@ -40,8 +40,8 @@
         Data Guru
     </a>
 
-    <a href="jadwal.php">
-        <i class="bi bi-calendar-week me-2"></i>
+<a href="jadwal.php">
+            <i class="bi bi-calendar-week me-2"></i>
         Jadwal Pelajaran
     </a>
 

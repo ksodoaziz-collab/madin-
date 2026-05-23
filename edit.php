@@ -27,7 +27,7 @@ if(isset($_POST['submit'])) {
         WHERE id='$id'
     ");
 
-    header("Location: index.php");
+    header("Location: data_siswa.php");
 }
 
 ?>

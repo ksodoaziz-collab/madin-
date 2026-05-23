@@ -25,7 +25,7 @@ if(isset($_POST['submit'])) {
     '$namaFile'
 )");
 
-    header("Location: index.php");
+    header("Location: data_siswa.php");
 }
 ?>
 

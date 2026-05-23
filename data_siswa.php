@@ -9,16 +9,17 @@ if(isset($_GET['cari'])) {
     $keyword = $_GET['cari'];
 
     $data = mysqli_query($koneksi, "
-        SELECT * FROM tb_guru
+        SELECT * FROM tb_siswa
         WHERE
         nama LIKE '%$keyword%'
-        OR mapel LIKE '%$keyword%'
+        OR nis LIKE '%$keyword%'
+        OR kelas LIKE '%$keyword%'
     ");
 
 } else {
 
     $data = mysqli_query($koneksi,
-    "SELECT * FROM tb_guru");
+    "SELECT * FROM tb_siswa");
 
 }
 
@@ -28,7 +29,7 @@ if(isset($_GET['cari'])) {
 <html>
 <head>
 
-    <title>Data Guru</title>
+    <title>Data Siswa</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet"
@@ -51,12 +52,12 @@ if(isset($_GET['cari'])) {
                 <div class="d-flex justify-content-between align-items-center mb-4">
 
                     <h2 class="fw-bold">
-                        Data Guru
+                        Data Siswa
                     </h2>
 
-                    <a href="tambah_guru.php"
+                    <a href="tambah.php"
                        class="btn btn-primary rounded-3">
-                       + Tambah Guru
+                       + Tambah Data
                     </a>
 
                 </div>
@@ -69,7 +70,7 @@ if(isset($_GET['cari'])) {
                         <input type="text"
                                name="cari"
                                class="form-control rounded-3"
-                               placeholder="Cari nama / mapel"
+                               placeholder="Cari nama / NIS / kelas"
                                value="<?= $keyword; ?>">
 
                     </div>
@@ -81,7 +82,7 @@ if(isset($_GET['cari'])) {
                             Cari
                         </button>
 
-                        <a href="data_guru.php"
+                        <a href="data_siswa.php"
                            class="btn btn-secondary rounded-3">
                            Reset
                         </a>
@@ -101,9 +102,11 @@ if(isset($_GET['cari'])) {
 
                                 <th>No</th>
                                 <th>Foto</th>
-                                <th>Nama Guru</th>
-                                <th>Mata Pelajaran</th>
-                                <th>No HP</th>
+                                <th>NIS</th>
+                                <th>Nama</th>
+                                <th>JK</th>
+                                <th>Alamat</th>
+                                <th>Kelas</th>
                                 <th>Aksi</th>
 
                             </tr>
@@ -119,27 +122,33 @@ if(isset($_GET['cari'])) {
                         <tr>
 
                             <td><?= $no++; ?></td>
-                            <td><img src="upload/<?= $row['foto']; ?>"
-                                      width="70"
+
+                            <td>
+                                <img src="upload/<?= $row['foto']; ?>"
+                                     width="70"
                                      class="rounded">
-                                                        </td>
+                            </td>
 
-                            <td><?= $row['nama_guru']; ?></td>
+                            <td><?= $row['nis']; ?></td>
 
-                            <td><?= $row['mapel']; ?></td>
+                            <td><?= $row['nama']; ?></td>
 
-                            <td><?= $row['no_hp']; ?></td>
+                            <td><?= $row['jk']; ?></td>
+
+                            <td><?= $row['alamat']; ?></td>
+
+                            <td><?= $row['kelas']; ?></td>
 
                             <td>
 
-                                <a href="edit_guru.php?id=<?= $row['id']; ?>"
+                                <a href="edit.php?id=<?= $row['id']; ?>"
                                    class="btn btn-warning btn-sm rounded-3">
                                    Edit
                                 </a>
 
-                                <a href="hapus_guru.php?id=<?= $row['id']; ?>"
+                                <a href="hapus.php?id=<?= $row['id']; ?>"
                                    class="btn btn-danger btn-sm rounded-3"
-                                   onclick="return confirm('Yakin ingin hapus data guru ini?')">
+                                   onclick="return confirm('Yakin ingin hapus data ini?')">
                                    Hapus
                                 </a>
 
