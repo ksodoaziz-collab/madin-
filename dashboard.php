@@ -1,4 +1,13 @@
 <?php
+session_start();
+
+if(!isset($_SESSION['login'])) {
+
+    header("Location: login.php");
+
+    exit;
+
+}
 
 include 'koneksi.php';
 
@@ -270,17 +279,31 @@ new Chart(ctx, {
 
         datasets: [{
 
-            label: 'Jumlah Siswa',
+    label: 'Persentase Siswa',
 
-            data: <?= json_encode($jumlah); ?>,
+    data: <?= json_encode($jumlah); ?>,
 
-            borderWidth: 1
+    backgroundColor: [
 
-        }]
+        '#6366F1',
+        '#14B8A6',
+        '#F59E0B',
+        '#EC4899',
+        '#EF4444'
 
+    ],
+
+    hoverOffset: 15
+
+}]
     },
 
     options: {
+        animation: {
+
+    duration: 2000
+
+},
 
         responsive: true,
 

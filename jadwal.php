@@ -1,5 +1,13 @@
 <?php
+session_start();
 
+if(!isset($_SESSION['login'])) {
+
+    header("Location: login.php");
+
+    exit;
+
+}
 include 'koneksi.php';
 
 if(isset($_GET['cari'])) {
@@ -62,33 +70,38 @@ if(isset($_GET['cari'])) {
                 </div>
 
                 <!-- SEARCH -->
-                <form method="GET" class="row g-2 mb-4">
+               <form method="GET" class="mb-4">
 
-                    <div class="col-md-4">
+<div class="input-group shadow-sm" style="max-width:400px;">
+        <span class="input-group-text bg-white border-0">
 
-                        <input type="text"
-                               name="cari"
-                               class="form-control rounded-3"
-                               placeholder="Cari mapel / guru / kelas"
-                               value="<?= isset($_GET['cari']) ? $_GET['cari'] : ''; ?>">
+            <i class="bi bi-search text-primary"></i>
 
-                    </div>
+        </span>
 
-                    <div class="col-auto">
+        <input type="text"
+               name="cari"
+               class="form-control border-0"
+               placeholder="Cari data siswa..."
+               value="<?= isset($_GET['cari']) ? $_GET['cari'] : ''; ?>">
 
-                        <button type="submit"
-                                class="btn btn-success rounded-3">
-                            Cari
-                        </button>
+        <button type="submit"
+                class="btn btn-primary">
 
-                        <a href="jadwal.php"
-                           class="btn btn-secondary rounded-3">
-                           Reset
-                        </a>
+            Cari
 
-                    </div>
+        </button>
 
-                </form>
+        <a href="jadwal.php"
+           class="btn btn-secondary">
+
+           Reset
+
+        </a>
+
+    </div>
+
+</form>
 
                 <!-- TABLE -->
                 <div class="table-responsive">

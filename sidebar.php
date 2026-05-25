@@ -19,35 +19,91 @@
 
 </style>
 
-<div class="sidebar">
+<div class="bg-dark text-white p-3"
+     style="width:250px; min-height:100vh;">
 
-    <h3 class="text-white text-center py-4">
+    <h3 class="text-center mb-4 fw-bold">
         MADIN APP
     </h3>
 
-    <a href="dashboard.php">
-        <i class="bi bi-speedometer2 me-2"></i>
-        Dashboard
-    </a>
+    <ul class="nav flex-column gap-2">
 
-    <a href="data_siswa.php">
-        <i class="bi bi-people-fill me-2"></i>
-        Data Siswa
-    </a>
+        <li class="nav-item">
 
-    <a href="data_guru.php">
-        <i class="bi bi-person-badge-fill me-2"></i>
-        Data Guru
-    </a>
+            <a href="dashboard.php"
+               class="nav-link text-white sidebar-link">
 
-<a href="jadwal.php">
-            <i class="bi bi-calendar-week me-2"></i>
-        Jadwal Pelajaran
-    </a>
+               <i class="bi bi-speedometer2 me-2"></i>
+               Dashboard
 
-    <a href="#">
-        <i class="bi bi-box-arrow-right me-2"></i>
-        Logout
-    </a>
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+
+            <a href="data_siswa.php"
+               class="nav-link text-white sidebar-link">
+
+               <i class="bi bi-people-fill me-2"></i>
+               Data Siswa
+
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+
+            <a href="data_guru.php"
+               class="nav-link text-white sidebar-link">
+
+               <i class="bi bi-person-badge-fill me-2"></i>
+               Data Guru
+
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+
+            <a href="jadwal.php"
+               class="nav-link text-white sidebar-link">
+
+               <i class="bi bi-calendar-week-fill me-2"></i>
+               Jadwal
+
+            </a>
+
+        </li>
+
+    </ul>
+    <hr class="text-secondary">
+
+<a href="logout.php"
+   class="btn btn-danger w-100 rounded-3">
+
+   <i class="bi bi-box-arrow-right me-2"></i>
+   Logout
+
+</a>
 
 </div>
+<style>
+
+.sidebar-link {
+
+    border-radius: 10px;
+
+    transition: 0.3s;
+
+}
+
+.sidebar-link:hover {
+
+    background: #0d6efd;
+
+    padding-left: 10px;
+
+}
+
+</style>
