@@ -121,6 +121,7 @@ if(isset($_GET['cari'])) {
                                 <th>JK</th>
                                 <th>Alamat</th>
                                 <th>Kelas</th>
+                                <th>Tanggal Lahir</th>
                                 <th>Aksi</th>
 
                             </tr>
@@ -129,10 +130,15 @@ if(isset($_GET['cari'])) {
 
                         <tbody>
 
-                        <?php $no = 1; ?>
+                        <?php
 
-                        <?php while($row = mysqli_fetch_assoc($data)) : ?>
+                        $no = 1;
 
+                        if(mysqli_num_rows($data) > 0) :
+
+                        while($row = mysqli_fetch_assoc($data)) :
+
+                                                                    ?>
                         <tr>
 
                             <td><?= $no++; ?></td>
@@ -152,6 +158,8 @@ if(isset($_GET['cari'])) {
                             <td><?= $row['alamat']; ?></td>
 
                             <td><?= $row['kelas']; ?></td>
+                            
+                            <td><?= $row['tanggal_lahir']; ?></td>
 
                             <td>
 
@@ -169,20 +177,29 @@ if(isset($_GET['cari'])) {
                             </td>
 
                         </tr>
-
                         <?php endwhile; ?>
+                        <?php else : ?>
+                    <tr>
+                     <td colspan="9">
+                     <div class="alert alert-danger text-center mb-0">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            Data tidak ditemukan
+        </div>
+    </td>
+</tr>
 
-                        </tbody>
+                    <?php endif; ?>
 
-                    </table>
+                    </tbody>
+                </table>
+
+                </div>
 
                 </div>
 
             </div>
 
         </div>
-
-    </div>
 
 </div>
 

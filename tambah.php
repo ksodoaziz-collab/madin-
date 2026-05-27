@@ -8,21 +8,32 @@ if(isset($_POST['submit'])) {
     $jk = $_POST['jk'];
     $alamat = $_POST['alamat'];
     $kelas = $_POST['kelas'];
+    $tanggal_lahir = $_POST['tanggal_lahir'];
 
     $namaFile = $_FILES['foto']['name'];
     $tmp = $_FILES['foto']['tmp_name'];
 
     move_uploaded_file($tmp, 'upload/' . $namaFile);
 
-    mysqli_query($koneksi, "INSERT INTO tb_siswa
-    VALUES(
-    NULL,
-    '$nis',
-    '$nama',
-    '$jk',
-    '$alamat',
-    '$kelas',
-    '$namaFile'
+   mysqli_query($koneksi,
+"INSERT INTO tb_siswa(
+
+nis,
+nama,
+jk,
+alamat,
+kelas,
+tanggal_lahir
+
+) VALUES (
+
+'$nis',
+'$nama',
+'$jk',
+'$alamat',
+'$kelas',
+'$tanggal_lahir'
+
 )");
 
     header("Location: data_siswa.php");
@@ -74,6 +85,15 @@ if(isset($_POST['submit'])) {
 
             <input type="text" name="kelas" class="form-control">
         </div>
+        <div class="mb-3">
+
+    <label>Tanggal Lahir</label>
+
+    <input type="date"
+           name="tanggal_lahir"
+           class="form-control">
+
+</div>
 
         <div class="mb-3">
             <label>Foto</label>

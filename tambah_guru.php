@@ -9,23 +9,34 @@ if(isset($_POST['submit'])) {
     $mapel = $_POST['mapel'];
     $alamat = $_POST['alamat'];
     $no_hp = $_POST['no_hp'];
-
     $foto = $_FILES['foto']['name'];
+    $tanggal_lahir = $_POST['tanggal_lahir'];
     $tmp = $_FILES['foto']['tmp_name'];
 
     move_uploaded_file($tmp, 'upload/' . $foto);
 
-    mysqli_query($koneksi, "INSERT INTO tb_guru
-    VALUES(
-    NULL,
-    '$nip',
-    '$nama_guru',
-    '$mapel',
-    '$alamat',
-    '$no_hp',
-    '$foto'
-    )");
+    mysqli_query($koneksi,
+"INSERT INTO tb_guru(
 
+nip,
+nama_guru,
+mapel,
+alamat,
+no_hp,
+foto,
+tanggal_lahir
+
+) VALUES (
+
+'$nip',
+'$nama_guru',
+'$mapel',
+'$alamat',
+'$no_hp',
+'$foto',
+'$tanggal_lahir'
+
+)");
     header("Location: data_guru.php");
 
 }
@@ -107,7 +118,15 @@ if(isset($_POST['submit'])) {
                    class="form-control">
 
         </div>
+<div class="mb-3">
 
+    <label>Tanggal Lahir</label>
+
+    <input type="date"
+           name="tanggal_lahir"
+           class="form-control">
+
+</div>
         <button type="submit"
                 name="submit"
                 class="btn btn-primary">

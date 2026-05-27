@@ -1,8 +1,17 @@
 <?php
 
+
 include 'koneksi.php';
 
 $id = $_GET['id'];
+
+// AMBIL DATA GURU
+$dataGuru = mysqli_query($koneksi,
+"SELECT * FROM tb_guru");
+
+// AMBIL DATA KELAS
+$dataKelas = mysqli_query($koneksi,
+"SELECT * FROM tb_kelas");
 
 $data = mysqli_query($koneksi,
 "SELECT * FROM tb_jadwal WHERE id='$id'");
@@ -12,10 +21,48 @@ $row = mysqli_fetch_assoc($data);
 if(isset($_POST['submit'])) {
 
     $hari = $_POST['hari'];
-    $jam = $_POST['jam'];
+$jam_mulai = $_POST['jam_mulai'];
+$jam_selesai = $_POST['jam_selesai'];
+
+$jam = $jam_mulai . " - " . $jam_selesai;
+
+if($jam_selesai <= $jam_mulai) {
+    echo "
+    <script>
+        alert('Jam selesai harus lebih besar!');
+        window.location='edit_jadwal.php?id=$id';
+    </script>
+    ";
+    exit;
+}
+
     $mapel = $_POST['mapel'];
     $guru = $_POST['guru'];
     $kelas = $_POST['kelas'];
+
+// CEK JADWAL BENTROK
+$cek = mysqli_query($koneksi,
+"SELECT * FROM tb_jadwal
+WHERE hari='$hari'
+AND jam='$jam'
+AND (
+    guru='$guru'
+    OR kelas='$kelas'
+)
+AND id != '$id'
+");
+
+if(mysqli_num_rows($cek) > 0) {
+
+    echo "
+    <script>
+        alert('Jadwal bentrok!');
+        window.location='edit_jadwal.php?id=$id';
+    </script>
+    ";
+
+    exit;
+}
 
     mysqli_query($koneksi,
     "UPDATE tb_jadwal SET
@@ -91,11 +138,17 @@ if(isset($_POST['submit'])) {
 
             <label>Jam</label>
 
-            <input type="text"
-                   name="jam"
-                   class="form-control"
-                   value="<?= $row['jam']; ?>">
+            <input type="time"
+       name="jam_mulai"
+       class="form-control"
+       required>
 
+<br>
+
+<input type="time"
+       name="jam_selesai"
+       class="form-control"
+       required>
         </div>
 
         <div class="mb-3">
@@ -113,22 +166,58 @@ if(isset($_POST['submit'])) {
 
             <label>Guru</label>
 
-            <input type="text"
-                   name="guru"
-                   class="form-control"
-                   value="<?= $row['guru']; ?>">
+            <select name="guru"
+class="form-control"
+required>
 
+<?php while($g = mysqli_fetch_assoc($dataGuru)) : ?>
+
+<option value="<?= $g['nama_guru']; ?>"
+
+<?php
+if($row['guru'] == $g['nama_guru']) {
+    echo "selected";
+}
+?>
+
+>
+
+<?= $g['nama_guru']; ?>
+
+</option>
+
+<?php endwhile; ?>
+
+</select>
         </div>
 
         <div class="mb-3">
 
             <label>Kelas</label>
 
-            <input type="text"
-                   name="kelas"
-                   class="form-control"
-                   value="<?= $row['kelas']; ?>">
+            <select name="kelas"
+class="form-control"
+required>
 
+<?php while($k = mysqli_fetch_assoc($dataKelas)) : ?>
+
+<option value="<?= $k['nama_kelas']; ?>"
+
+<?php
+if($row['kelas'] == $k['nama_kelas']) {
+    echo "selected";
+}
+?>
+
+>
+
+<?= $k['nama_kelas']; ?>
+
+</option>
+
+<?php endwhile; ?>
+
+</select>
         </div>
 
         <button type="submit"

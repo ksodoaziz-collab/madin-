@@ -15,17 +15,36 @@ if(isset($_POST['submit'])) {
     $jk = $_POST['jk'];
     $alamat = $_POST['alamat'];
     $kelas = $_POST['kelas'];
+    $tanggal_lahir = $_POST['tanggal_lahir'];
+    $fotoLama = $row['foto'];
 
-    mysqli_query($koneksi, "UPDATE tb_siswa SET
+    $foto = $_FILES['foto']['name'];
 
-        nis='$nis',
-        nama='$nama',
-        jk='$jk',
-        alamat='$alamat',
-        kelas='$kelas'
+if($foto != '') {
 
-        WHERE id='$id'
-    ");
+    $tmp = $_FILES['foto']['tmp_name'];
+
+    move_uploaded_file($tmp, 'upload/'.$foto);
+
+} else {
+
+    $foto = $fotoLama;
+
+}
+
+mysqli_query($koneksi,
+"UPDATE tb_siswa SET
+
+nis='$nis',
+nama='$nama',
+jk='$jk',
+alamat='$alamat',
+kelas='$kelas',
+tanggal_lahir='$tanggal_lahir',
+foto='$foto'
+
+WHERE id='$id'
+");
 
     header("Location: data_siswa.php");
 }
@@ -47,8 +66,7 @@ if(isset($_POST['submit'])) {
 
     <h2>Edit Data Siswa</h2>
 
-    <form method="POST">
-
+<form method="POST" enctype="multipart/form-data">
         <div class="mb-3">
 
             <label>NIS</label>
@@ -108,9 +126,36 @@ if(isset($_POST['submit'])) {
                    name="kelas"
                    class="form-control"
                    value="<?= $row['kelas']; ?>">
-
         </div>
+        <div class="mb-3">
 
+    <label>Tanggal Lahir</label>
+
+    <input type="date"
+           name="tanggal_lahir"
+           value="<?= $row['tanggal_lahir']; ?>"
+           class="form-control">
+</div>
+<div class="mb-3">
+
+    <label>Foto Lama</label>
+    <br>
+
+    <img src="upload/<?= $row['foto']; ?>"
+         width="120"
+         class="rounded shadow">
+
+</div>
+
+<div class="mb-3">
+
+    <label>Ganti Foto</label>
+
+    <input type="file"
+           name="foto"
+           class="form-control">
+
+</div>
         <button type="submit"
                 name="submit"
                 class="btn btn-primary">

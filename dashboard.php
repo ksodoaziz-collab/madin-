@@ -11,23 +11,31 @@ if(!isset($_SESSION['login'])) {
 
 include 'koneksi.php';
 
-// TOTAL SISWA
+// HITUNG SISWA
 $siswa = mysqli_query($koneksi,
 "SELECT * FROM tb_siswa");
 
 $total_siswa = mysqli_num_rows($siswa);
 
-// TOTAL GURU
+// HITUNG GURU
 $guru = mysqli_query($koneksi,
 "SELECT * FROM tb_guru");
 
 $total_guru = mysqli_num_rows($guru);
 
-// TOTAL JADWAL
+// HITUNG JADWAL
 $jadwal = mysqli_query($koneksi,
 "SELECT * FROM tb_jadwal");
 
 $total_jadwal = mysqli_num_rows($jadwal);
+
+// HITUNG KELAS
+$kelas = mysqli_query($koneksi,
+"SELECT * FROM tb_kelas");
+
+$total_kelas = mysqli_num_rows($kelas);
+
+
 $queryChart = mysqli_query($koneksi,
 "SELECT kelas, COUNT(*) as jumlah
 FROM tb_siswa
@@ -49,7 +57,7 @@ while($chart = mysqli_fetch_assoc($queryChart)) {
 <html>
 <head>
 
-    <title>Dashboard</title>
+    <title>MADIN DARUL ULUM </title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -78,7 +86,7 @@ while($chart = mysqli_fetch_assoc($queryChart)) {
 <div class="container-fluid p-4 bg-light min-vh-100">
         <!-- JUDUL -->
         <h2 class="fw-bold mb-4">
-            Dashboard Madin
+            Dashboard MADIN 
         </h2>
 
         <!-- CARD -->
@@ -181,6 +189,40 @@ while($chart = mysqli_fetch_assoc($queryChart)) {
     </div>
 
 </div>
+
+<!-- TOTAL KELAS -->
+<div class="col-md-4">
+
+<div class="card hover-card bg-info text-white border-0 shadow-lg rounded-4 h-100">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <h6 class="fw-light mb-2">
+                    Total Kelas
+                </h6>
+
+                <h1 class="fw-bold">
+                    <?= $total_kelas; ?>
+                </h1>
+
+            </div>
+
+            <i class="bi bi-building text-white"
+               style="font-size:60px;">
+            </i>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
         <!-- GRAFIK -->
 <div class="card border-0 shadow rounded-4 mt-4">
     <div class="card-body">
@@ -279,7 +321,7 @@ new Chart(ctx, {
 
         datasets: [{
 
-    label: 'Persentase Siswa',
+    label: 'Jumlah Siswa',
 
     data: <?= json_encode($jumlah); ?>,
 
@@ -335,17 +377,33 @@ new Chart(pie, {
 
         datasets: [{
 
-            label: 'Persentase Siswa',
+    label: 'Persentase Siswa',
 
-            data: <?= json_encode($jumlah); ?>,
+    data: <?= json_encode($jumlah); ?>,
 
-            borderWidth: 1
+    backgroundColor: [
 
-        }]
+        '#6366F1',
+        '#14B8A6',
+        '#F59E0B',
+        '#EC4899',
+        '#EF4444'
 
+    ],
+
+    hoverOffset: 15
+
+}]
     },
 
     options: {
+
+    animation: {
+
+        duration: 2000
+
+    },
+
 
         responsive: true,
 

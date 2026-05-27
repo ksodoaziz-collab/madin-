@@ -1,25 +1,68 @@
 <?php
 
+
 include 'koneksi.php';
+
+// AMBIL DATA GURU
+$guru = mysqli_query($koneksi,
+"SELECT * FROM tb_guru");
+
+// AMBIL DATA KELAS
+$dataKelas = mysqli_query($koneksi,
+"SELECT * FROM tb_kelas");
 
 if(isset($_POST['submit'])) {
 
     $hari = $_POST['hari'];
-    $jam = $_POST['jam'];
+$jam_mulai = $_POST['jam_mulai'];
+$jam_selesai = $_POST['jam_selesai'];
+$jam = $jam_mulai . " - " . $jam_selesai;
+if($jam_selesai <= $jam_mulai) {
+    echo "
+    <script>
+        alert('Jam selesai harus lebih besar dari jam mulai!');
+        window.location='tambah_jadwal.php';
+    </script>
+    ";
+    exit;
+}
     $mapel = $_POST['mapel'];
     $guru = $_POST['guru'];
     $kelas = $_POST['kelas'];
+    
+ // CEK JADWAL BENTROK
+$cek = mysqli_query($koneksi,
+"SELECT * FROM tb_jadwal
+WHERE hari='$hari'
+AND jam='$jam'
+AND (
+    guru='$guru'
+    OR kelas='$kelas'
+)");
 
-    mysqli_query($koneksi,
-    "INSERT INTO tb_jadwal
-    VALUES(
-    NULL,
-    '$hari',
-    '$jam',
-    '$mapel',
-    '$guru',
-    '$kelas'
-    )");
+if(mysqli_num_rows($cek) > 0) {
+
+    echo "
+    <script>
+        alert('Jadwal bentrok!');
+        window.location='tambah_jadwal.php';
+    </script>
+    ";
+
+    exit;
+}
+
+// INSERT DATA
+mysqli_query($koneksi,
+"INSERT INTO tb_jadwal
+VALUES(
+NULL,
+'$hari',
+'$jam',
+'$mapel',
+'$guru',
+'$kelas'
+)");
 
     header("Location: jadwal.php");
 
@@ -66,11 +109,17 @@ if(isset($_POST['submit'])) {
 
             <label>Jam</label>
 
-            <input type="text"
-                   name="jam"
-                   class="form-control"
-                   placeholder="07:00 - 08:00">
+            <input type="time"
+       name="jam_mulai"
+       class="form-control"
+       required>
 
+<br>
+
+<input type="time"
+       name="jam_selesai"
+       class="form-control"
+       required>
         </div>
 
         <div class="mb-3">
@@ -87,21 +136,53 @@ if(isset($_POST['submit'])) {
 
             <label>Guru</label>
 
-            <input type="text"
-                   name="guru"
-                   class="form-control">
+            <select name="guru"
+            class="form-control"
+                    required>
+
+    <option value="">
+        -- Pilih Guru --
+    </option>
+
+    <?php while($g = mysqli_fetch_assoc($guru)) : ?>
+
+        <option value="<?= $g['nama_guru']; ?>">
+
+            <?= $g['nama_guru']; ?>
+
+        </option>
+
+    <?php endwhile; ?>
+
+</select>
 
         </div>
 
         <div class="mb-3">
 
-            <label>Kelas</label>
+    <label>Kelas</label>
 
-            <input type="text"
-                   name="kelas"
-                   class="form-control">
+    <select name="kelas"
+            class="form-control"
+            required>
 
-        </div>
+        <option value="">
+            -- Pilih Kelas --
+        </option>
+
+        <?php while($k = mysqli_fetch_assoc($dataKelas)) : ?>
+
+            <option value="<?= $k['nama_kelas']; ?>">
+
+                <?= $k['nama_kelas']; ?>
+
+            </option>
+
+        <?php endwhile; ?>
+
+    </select>
+
+</div>
 
         <button type="submit"
                 name="submit"

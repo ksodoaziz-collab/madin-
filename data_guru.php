@@ -20,7 +20,7 @@ if(isset($_GET['cari'])) {
     $data = mysqli_query($koneksi, "
         SELECT * FROM tb_guru
         WHERE
-        nama LIKE '%$keyword%'
+        nama_guru LIKE '%$keyword%'
         OR mapel LIKE '%$keyword%'
     ");
 
@@ -118,6 +118,7 @@ if(isset($_GET['cari'])) {
                                 <th>Nama Guru</th>
                                 <th>Mata Pelajaran</th>
                                 <th>No HP</th>
+                                <th>Tanggal Lahir</th>
                                 <th>Aksi</th>
 
                             </tr>
@@ -126,10 +127,17 @@ if(isset($_GET['cari'])) {
 
                         <tbody>
 
-                        <?php $no = 1; ?>
+                        <tbody>
 
-                        <?php while($row = mysqli_fetch_assoc($data)) : ?>
+                        <?php
 
+                        $no = 1;
+
+                    if(mysqli_num_rows($data) > 0) :        
+
+                    while($row = mysqli_fetch_assoc($data)) :
+
+                                                            ?>
                         <tr>
 
                             <td><?= $no++; ?></td>
@@ -144,6 +152,8 @@ if(isset($_GET['cari'])) {
 
                             <td><?= $row['no_hp']; ?></td>
 
+                            <td><?= $row['tanggal_lahir']; ?></td>
+                            
                             <td>
 
                                 <a href="edit_guru.php?id=<?= $row['id']; ?>"
@@ -156,15 +166,21 @@ if(isset($_GET['cari'])) {
                                    onclick="return confirm('Yakin ingin hapus data guru ini?')">
                                    Hapus
                                 </a>
-
                             </td>
-
                         </tr>
-
                         <?php endwhile; ?>
+                        <?php else : ?>
+                        <tr>
+                        <td colspan="8">
+        <div class="alert alert-danger text-center mb-0">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            Data guru tidak ditemukan
+        </div>
+        </td>
+        </tr>
+                    <?php endif; ?>
 
-                        </tbody>
-
+                    </tbody>
                     </table>
 
                 </div>

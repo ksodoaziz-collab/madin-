@@ -106,8 +106,8 @@ if(isset($_GET['cari'])) {
                 <!-- TABLE -->
                 <div class="table-responsive">
 
-                    <table class="table table-hover align-middle">
-
+<table class="table table-hover align-middle shadow-sm">
+    
                         <thead class="table-dark">
 
                             <tr>
@@ -126,23 +126,63 @@ if(isset($_GET['cari'])) {
 
                         <tbody>
 
-                        <?php $no = 1; ?>
+                        <tbody>
 
-                        <?php while($row = mysqli_fetch_assoc($data)) : ?>
+                        <?php
 
-                        <tr>
+                        $no = 1;
 
-                            <td><?= $no++; ?></td>
+                        if(mysqli_num_rows($data) > 0) :
 
-                            <td><?= $row['hari']; ?></td>
+                        while($row = mysqli_fetch_assoc($data)) :
 
-                            <td><?= $row['jam']; ?></td>
+                                                                    ?>
 
-                            <td><?= $row['mapel']; ?></td>
+                        <?php
 
-                            <td><?= $row['guru']; ?></td>
+$warna = '';
 
-                            <td><?= $row['kelas']; ?></td>
+if($row['hari'] == 'Senin') {
+
+    $warna = 'table-primary';
+
+} elseif($row['hari'] == 'Selasa') {
+
+    $warna = 'table-success';
+
+} elseif($row['hari'] == 'Rabu') {
+
+    $warna = 'table-warning';
+
+} elseif($row['hari'] == 'Kamis') {
+
+    $warna = 'table-danger';
+
+} elseif($row['hari'] == 'Jumat') {
+
+    $warna = 'table-info';
+
+} elseif($row['hari'] == 'Sabtu') {
+
+    $warna = 'table-secondary';
+
+}
+
+?>
+
+<tr class="<?= $warna; ?>">
+
+    <td><?= $no++; ?></td>
+
+    <td><?= $row['hari']; ?></td>
+
+    <td><?= $row['jam']; ?></td>
+
+    <td><?= $row['mapel']; ?></td>
+
+    <td><?= $row['guru']; ?></td>
+
+    <td><?= $row['kelas']; ?></td>
 
                             <td>
 
@@ -163,8 +203,26 @@ if(isset($_GET['cari'])) {
 
                         <?php endwhile; ?>
 
-                        </tbody>
+                        <?php else : ?>
 
+                         <tr>
+
+    <td colspan="7">
+
+        <div class="alert alert-danger text-center mb-0">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            Data jadwal tidak ditemukan
+
+        </div>
+
+    </td>
+
+</tr>
+
+                    <?php endif; ?>
+
+                    </tbody>
                     </table>
 
                 </div>

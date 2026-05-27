@@ -16,18 +16,36 @@ if(isset($_POST['submit'])) {
     $mapel = $_POST['mapel'];
     $alamat = $_POST['alamat'];
     $no_hp = $_POST['no_hp'];
+    $tanggal_lahir = $_POST['tanggal_lahir'];
+    $fotoLama = $row['foto'];
 
-    mysqli_query($koneksi, "UPDATE tb_guru SET
+    $foto = $_FILES['foto']['name'];
 
-        nip='$nip',
-        nama_guru='$nama_guru',
-        mapel='$mapel',
-        alamat='$alamat',
-        no_hp='$no_hp'
+if($foto != '') {
 
-        WHERE id='$id'
-    ");
+    $tmp = $_FILES['foto']['tmp_name'];
 
+    move_uploaded_file($tmp, 'upload/'.$foto);
+
+} else {
+
+    $foto = $fotoLama;
+
+}
+
+mysqli_query($koneksi,
+"UPDATE tb_guru SET
+
+nip='$nip',
+nama_guru='$nama_guru',
+mapel='$mapel',
+alamat='$alamat',
+no_hp='$no_hp',
+tanggal_lahir='$tanggal_lahir',
+foto='$foto'
+
+WHERE id='$id'
+");
     header("Location: data_guru.php");
 
 }
@@ -49,8 +67,7 @@ if(isset($_POST['submit'])) {
 
     <h2>Edit Data Guru</h2>
 
-    <form method="POST">
-
+<form method="POST" enctype="multipart/form-data">
         <div class="mb-3">
 
             <label>NIP</label>
@@ -103,8 +120,36 @@ if(isset($_POST['submit'])) {
                    value="<?= $row['no_hp']; ?>">
 
         </div>
+<div class="mb-3">
 
-        <button type="submit"
+    <label>Foto Lama</label>
+    <br>
+
+    <img src="upload/<?= $row['foto']; ?>"
+         width="120"
+         class="rounded shadow">
+
+</div>
+
+<div class="mb-3">
+
+    <label>Ganti Foto</label>
+
+    <input type="file"
+           name="foto"
+           class="form-control">
+</div>
+<div class="mb-3">
+
+    <label>Tanggal Lahir</label>
+
+    <input type="date"
+           name="tanggal_lahir"
+           value="<?= $row['tanggal_lahir']; ?>"
+           class="form-control">
+
+</div>
+<button type="submit"
                 name="submit"
                 class="btn btn-primary">
 
