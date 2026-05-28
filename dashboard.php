@@ -75,19 +75,25 @@ while($chart = mysqli_fetch_assoc($queryChart)) {
 </style>
 </head>
 
-<body class="bg-light">
-
-<div class="d-flex">
+<body id="body" class="bg-dark text-light">
+    <div class="d-flex">
 
     <!-- SIDEBAR -->
     <?php include 'sidebar.php'; ?>
 
-    <!-- CONTENT -->
-<div class="container-fluid p-4 bg-light min-vh-100">
-        <!-- JUDUL -->
-        <h2 class="fw-bold mb-4">
-            Dashboard MADIN 
-        </h2>
+<!-- CONTENT -->
+<div id="content"
+     class="container-fluid p-4 bg-dark min-vh-100 text-light">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">
+        Dashboard MADIN
+    </h2>
+    <button onclick="toggleMode()"
+            class="btn btn-light rounded-3">
+        🌙 Dark Mode
+    </button>
+</div>
 
         <!-- CARD -->
        <div class="row g-4 mb-4">
@@ -159,7 +165,7 @@ while($chart = mysqli_fetch_assoc($queryChart)) {
     <!-- TOTAL JADWAL -->
     <div class="col-md-4">
 
-<div class="card hover-card bg-warning text-dark border-0 shadow-lg rounded-4 h-100">
+<div class="card hover-card bg-warning text-white border-0 shadow-lg rounded-4 h-100">
             <div class="card-body">
 
                 <div class="d-flex justify-content-between align-items-center">
@@ -176,7 +182,7 @@ while($chart = mysqli_fetch_assoc($queryChart)) {
 
                     </div>
 
-                    <i class="bi bi-calendar-week-fill text-dark"
+                    <i class="bi bi-calendar-week-fill text-white"
                        style="font-size:60px;">
                     </i>
 
@@ -224,8 +230,9 @@ while($chart = mysqli_fetch_assoc($queryChart)) {
 </div>
 
         <!-- GRAFIK -->
-<div class="card border-0 shadow rounded-4 mt-4">
-    <div class="card-body">
+<div class="card border-0 shadow rounded-4 mt-4"
+     style="background:#F8FAFC; color:black;">
+         <div class="card-body">
         <h4 class="fw-bold mb-4">
             Grafik Siswa Per Kelas
         </h4>
@@ -244,17 +251,16 @@ while($chart = mysqli_fetch_assoc($queryChart)) {
     <canvas id="pieChart"></canvas>
 </div>
     <!-- SISWA TERBARU -->
-<div class="card border-0 shadow rounded-4 mt-4">
-
-    <div class="card-body">
+<div class="card border-0 shadow rounded-4 mt-4"
+     style="background:#FFFFFF; color:black;">
+         <div class="card-body">
 
         <h4 class="fw-bold mb-4">
             Siswa Terbaru
         </h4>
 
-        <table class="table table-hover align-middle">
-
-            <tr>
+<table class="table table-hover align-middle">
+                <tr>
 
                 <th>Nama</th>
                 <th>Kelas</th>
@@ -288,8 +294,8 @@ while($chart = mysqli_fetch_assoc($queryChart)) {
 
 </div>
         <!-- WELCOME -->
-        <div class="card border-0 shadow rounded-4 mt-4">
-
+<div class="card border-0 shadow rounded-4 mt-4"
+     style="background:#FFFFFF; color:black;">
             <div class="card-body">
 
                 <h4 class="fw-bold">
@@ -341,27 +347,41 @@ new Chart(ctx, {
     },
 
     options: {
-        animation: {
 
-    duration: 2000
+    plugins: {
 
-},
-
-        responsive: true,
-
-        maintainAspectRatio: false,
-
-        scales: {
-
-            y: {
-
-                beginAtZero: true
-
+        legend: {
+            labels: {
+                color: 'black'
             }
-
         }
 
-    }
+    },
+
+    scales: {
+
+        x: {
+            ticks: {
+                color: 'black'
+            }
+        },
+
+        y: {
+            ticks: {
+                color: 'black'
+            },
+            beginAtZero: true
+        }
+
+    },
+
+    animation: {
+        duration: 2000
+    },
+
+    responsive: true,
+    maintainAspectRatio: false
+}
 
 });
 
@@ -398,21 +418,58 @@ new Chart(pie, {
 
     options: {
 
-    animation: {
+    plugins: {
 
-        duration: 2000
+        legend: {
+            labels: {
+                color: 'black'
+            }
+        }
 
     },
 
+    animation: {
+        duration: 2000
+    },
 
-        responsive: true,
-
-        maintainAspectRatio: false
-
-    }
+    responsive: true,
+    maintainAspectRatio: false
+}
 
 });
 
+</script>
+<script>
+
+function toggleMode() {
+
+    const body = document.getElementById('body');
+    const content = document.getElementById('content');
+
+    // CEK MODE
+    if(body.classList.contains('bg-dark')) {
+
+        // LIGHT MODE
+        body.classList.remove('bg-dark', 'text-light');
+        body.classList.add('bg-light', 'text-dark');
+
+        content.classList.remove('bg-dark', 'text-light');
+        content.classList.add('bg-light', 'text-dark');
+
+    } else {
+
+        // DARK MODE
+        body.classList.remove('bg-light', 'text-dark');
+        body.classList.add('bg-dark', 'text-light');
+
+        content.classList.remove('bg-light', 'text-dark');
+        content.classList.add('bg-dark', 'text-light');
+
+    }
+
+}
+
+</script>
 </script>
 </body>
 </html>
